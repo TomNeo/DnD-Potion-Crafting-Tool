@@ -61,10 +61,12 @@ namespace DnD_Potion_Crafting_Tool
             }
         }
 
+        //Called on initial run and anytime an Item is added to the list. It populates the table that displays found files as well as updates for any new Bases or addatives
         public void resetLists()
         {
             Items.Clear();
             ItemsTable.Rows.Clear();
+            BaseList.Clear();
             String[] foundFiles = System.IO.Directory.GetFiles(Constants.DIR_ITEM_FILES);
             foreach (string file in foundFiles)
             {
@@ -174,16 +176,12 @@ namespace DnD_Potion_Crafting_Tool
                 this.Text = "Potion Crafting Tool - Edit Mode";
                 ModeButton.Text = "Switch to Craft Mode";
                 ActionButton.Text = "Save!";
-                /*
-                AlchemyCheck.Enabled = true;
-                PoisonerCheck.Enabled = true;
-                HerbalismCheck.Enabled = true;
-                */
                 this.NameText.Enabled = true;
                 this.NameText.Text = " ";
                 addAttribute.Enabled = true;
                 removeAttribute.Enabled = true;
                 newAttributeText.Enabled = true;
+                RankCombo.Enabled = true;
             }
             else
             {
@@ -191,16 +189,12 @@ namespace DnD_Potion_Crafting_Tool
                 this.Text = "Potion Crafting Tool - Craft Mode";
                 ModeButton.Text = "Switch to Edit Mode";
                 ActionButton.Text = "Craft!";
-                /*
-                AlchemyCheck.Enabled = false;
-                PoisonerCheck.Enabled = false;
-                HerbalismCheck.Enabled = false;
-                */
                 this.NameText.Enabled = false;
                 this.NameText.Text = " ";
                 addAttribute.Enabled = false;
                 removeAttribute.Enabled = false;
                 newAttributeText.Enabled = false;
+                RankCombo.Enabled = false;
             }
         }
 
@@ -244,7 +238,7 @@ namespace DnD_Potion_Crafting_Tool
             bool found = false;
             foreach (ListViewItem listItem in AttributelistView.Items)
             {
-                if (listItem.Text.Equals(newAttributeText.Text.ToUpper()))
+                if (listItem.Text.Trim().Equals(newAttributeText.Text.ToUpper().Trim()))
                 {
                     found = true;
                     break;
@@ -252,7 +246,7 @@ namespace DnD_Potion_Crafting_Tool
             }
             if (!found)
             {
-                AttributelistView.Items.Add(newAttributeText.Text.ToUpper());
+                AttributelistView.Items.Add(newAttributeText.Text.ToUpper().Trim());
             }
         }
 
@@ -263,6 +257,10 @@ namespace DnD_Potion_Crafting_Tool
                 Item newItem = new Item();
                 newItem.Name = this.NameText.Text.Trim();
                 newItem.Rank = RankCombo.SelectedIndex;
+                if(newItem.Rank < 0)
+                {
+                    newItem.Rank = 0;
+                }
                 string tempString = "";
                 if (HerbalismCheck.Checked)
                 {
