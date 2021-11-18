@@ -86,6 +86,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.AttributelistView = new System.Windows.Forms.ListView();
+            this.ListAttribute = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.HerbalismCheck = new System.Windows.Forms.CheckBox();
@@ -100,7 +101,6 @@
             this.newAttributeText = new System.Windows.Forms.TextBox();
             this.addAttribute = new System.Windows.Forms.Button();
             this.removeAttribute = new System.Windows.Forms.Button();
-            this.ListAttribute = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.ItemsTable)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -613,6 +613,11 @@
             this.AttributelistView.UseCompatibleStateImageBehavior = false;
             this.AttributelistView.View = System.Windows.Forms.View.Details;
             // 
+            // ListAttribute
+            // 
+            this.ListAttribute.Text = "Attribute";
+            this.ListAttribute.Width = 130;
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -743,11 +748,6 @@
             this.removeAttribute.TabIndex = 50;
             this.removeAttribute.Text = "Remove";
             this.removeAttribute.UseVisualStyleBackColor = true;
-            // 
-            // ListAttribute
-            // 
-            this.ListAttribute.Text = "Attribute";
-            this.ListAttribute.Width = 130;
             // 
             // Form1
             // 

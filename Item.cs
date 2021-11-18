@@ -37,53 +37,53 @@ namespace DnD_Potion_Crafting_Tool
                 string[] LineBits = line.Split(new string[] { Constants.FILE_HEADER_SEPARATOR }, StringSplitOptions.None);
                 if (LineBits[0].Equals(Constants.ITEM_RANK_HEADER))
                 {
-                    Rank = int.Parse(LineBits[1]);
+                    Rank = int.Parse(LineBits[1].Trim());
                 } else if (LineBits[0].Equals(Constants.ITEM_KITS_HEADER)){
-                    Kits = LineBits[1];
+                    Kits = LineBits[1].Trim();
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_BASE_HEADER) ){
-                    Base = LineBits[1];
+                    Base = LineBits[1].Trim();
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_ADDATIVE_HEADER) ){
-                    Addatives.Add(LineBits[1]);
+                    Addatives.Add(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_ATTRIBUTES_HEADER) ){
-                    Attributes.Add(LineBits[1]);
+                    Attributes.Add(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_VALUE_HEADER) ){
-                    Value = float.Parse(LineBits[1]);
+                    Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_EFFECT_HEADER) ){
-                    Effect = LineBits[1];
+                    Effect = LineBits[1].Trim();
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_WATER_HEADER) ){
-                    Water_Value = float.Parse(LineBits[1]);
+                    Water_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_FIRE_HEADER) ){
-                    Fire_Value = float.Parse(LineBits[1]);
+                    Fire_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_AIR_HEADER) ){
-                    Air_Value = float.Parse(LineBits[1]);
+                    Air_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_NATURE_HEADER) ){
-                    Nature_Value = float.Parse(LineBits[1]);
+                    Nature_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_METAL_HEADER) ){
-                    Metal_Value = float.Parse(LineBits[1]);
+                    Metal_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_VITALITY_HEADER) ){
-                    Vitality_Value = float.Parse(LineBits[1]);
+                    Vitality_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_DECAY_HEADER) ){
-                    Decay_Value = float.Parse(LineBits[1]);
+                    Decay_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_ARCANE_HEADER) ){
-                    Arcane_Value = float.Parse(LineBits[1]);
+                    Arcane_Value = float.Parse(LineBits[1].Trim());
                 }
                 else if (LineBits[0].Equals(Constants.ITEM_DIVINE_HEADER) ){
-                    Divine_Value = float.Parse(LineBits[1]);
+                    Divine_Value = float.Parse(LineBits[1].Trim());
                 } else if (LineBits[0].Equals(Constants.ITEM_INFERNAL_HEADER)) { 
-                    Infernal_Value = float.Parse(LineBits[1]);
+                    Infernal_Value = float.Parse(LineBits[1].Trim());
                 }
             }
         }
@@ -96,15 +96,15 @@ namespace DnD_Potion_Crafting_Tool
         {
             List<string> writeLines = new List<string>();
             writeLines.Add(Constants.ITEM_RANK_HEADER + Constants.FILE_HEADER_SEPARATOR + Rank);
-            writeLines.Add(Constants.ITEM_KITS_HEADER + Constants.FILE_HEADER_SEPARATOR + Kits);
-            writeLines.Add(Constants.ITEM_BASE_HEADER + Constants.FILE_HEADER_SEPARATOR + Base);
+            writeLines.Add(Constants.ITEM_KITS_HEADER + Constants.FILE_HEADER_SEPARATOR + Kits.Trim());
+            writeLines.Add(Constants.ITEM_BASE_HEADER + Constants.FILE_HEADER_SEPARATOR + Base.Trim());
             foreach (string addative in Addatives)
             {
-                writeLines.Add(Constants.ITEM_ADDATIVE_HEADER + Constants.FILE_HEADER_SEPARATOR + addative);
+                writeLines.Add(Constants.ITEM_ADDATIVE_HEADER + Constants.FILE_HEADER_SEPARATOR + addative.Trim());
             }
             foreach (string attribute in Attributes)
             {
-                writeLines.Add(Constants.ITEM_ATTRIBUTES_HEADER + Constants.FILE_HEADER_SEPARATOR + attribute);
+                writeLines.Add(Constants.ITEM_ATTRIBUTES_HEADER + Constants.FILE_HEADER_SEPARATOR + attribute.Trim());
             }
             writeLines.Add(Constants.ITEM_VALUE_HEADER + Constants.FILE_HEADER_SEPARATOR + Value);
             writeLines.Add(Constants.ITEM_EFFECT_HEADER + Constants.FILE_HEADER_SEPARATOR + Effect);

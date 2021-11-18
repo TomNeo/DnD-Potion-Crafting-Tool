@@ -48,5 +48,9 @@ namespace DnD_Potion_Crafting_Tool
         public static float GP_PER_LBS_DIVINE = 200f;
         public static float GP_PER_LBS_INFERNAL = 200f;
 
+        public static char HERBALISM_SAVE_INDICATOR = 'H';
+        public static char ALCHEMIST_SAVE_INDICATOR = 'A';
+        public static char POISONER_SAVE_INDICATOR = 'P';
+
     }
 }

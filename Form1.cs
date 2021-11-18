@@ -73,7 +73,7 @@ namespace DnD_Potion_Crafting_Tool
                 ArrayList newRowItems = new ArrayList();
                 newRowItems.Add(item.Name);
                 newRowItems.Add(item.Kits);
-                newRowItems.Add(item.Rank);
+                newRowItems.Add(RankCombo.Items[item.Rank].ToString());
                 newRowItems.Add("" + item.Value);
                 string tempString = "";
                 bool firstTime = true;
@@ -135,7 +135,7 @@ namespace DnD_Potion_Crafting_Tool
             }
             BasesCombo.Items.Clear();
             BasesCombo.Items.Add(Constants.STATIC_NONE);
-            foreach (Item baseItem in BaseList) 
+            foreach (Item baseItem in BaseList)
             {
                 BasesCombo.Items.Add(baseItem.Name);
             }
@@ -168,36 +168,40 @@ namespace DnD_Potion_Crafting_Tool
 
         private void setMode(string Mode)
         {
-                if (Mode.Equals(Constants.STATIC_STATE_EDIT))
-                {
-                    CURRENT_STATE = Constants.STATIC_STATE_EDIT;
-                    this.Text = "Potion Crafting Tool - Edit Mode";
-                    ModeButton.Text = "Switch to Craft Mode";
-                    ActionButton.Text = "Save!";
-                    AlchemyCheck.Enabled = true;
-                    PoisonerCheck.Enabled = true;
-                    HerbalismCheck.Enabled = true;
-                    this.NameText.Enabled = true;
-                    this.NameText.Text = " ";
-                    addAttribute.Enabled = true;
-                    removeAttribute.Enabled = true;
-                    newAttributeText.Enabled = true;
-                }
-                else
-                {
-                    CURRENT_STATE = Constants.STATIC_STATE_CRAFT;
-                    this.Text = "Potion Crafting Tool - Craft Mode";
-                    ModeButton.Text = "Switch to Edit Mode";
-                    ActionButton.Text = "Craft!";
-                    AlchemyCheck.Enabled = false;
-                    PoisonerCheck.Enabled = false;
-                    HerbalismCheck.Enabled = false;
-                    this.NameText.Enabled = false;
-                    this.NameText.Text = " ";
-                    addAttribute.Enabled = false;
-                    removeAttribute.Enabled = false;
-                    newAttributeText.Enabled = false;
-                }
+            if (Mode.Equals(Constants.STATIC_STATE_EDIT))
+            {
+                CURRENT_STATE = Constants.STATIC_STATE_EDIT;
+                this.Text = "Potion Crafting Tool - Edit Mode";
+                ModeButton.Text = "Switch to Craft Mode";
+                ActionButton.Text = "Save!";
+                /*
+                AlchemyCheck.Enabled = true;
+                PoisonerCheck.Enabled = true;
+                HerbalismCheck.Enabled = true;
+                */
+                this.NameText.Enabled = true;
+                this.NameText.Text = " ";
+                addAttribute.Enabled = true;
+                removeAttribute.Enabled = true;
+                newAttributeText.Enabled = true;
+            }
+            else
+            {
+                CURRENT_STATE = Constants.STATIC_STATE_CRAFT;
+                this.Text = "Potion Crafting Tool - Craft Mode";
+                ModeButton.Text = "Switch to Edit Mode";
+                ActionButton.Text = "Craft!";
+                /*
+                AlchemyCheck.Enabled = false;
+                PoisonerCheck.Enabled = false;
+                HerbalismCheck.Enabled = false;
+                */
+                this.NameText.Enabled = false;
+                this.NameText.Text = " ";
+                addAttribute.Enabled = false;
+                removeAttribute.Enabled = false;
+                newAttributeText.Enabled = false;
+            }
         }
 
         private void ModeButton_Click(object sender, EventArgs e)
@@ -219,10 +223,12 @@ namespace DnD_Potion_Crafting_Tool
             {
                 ((TextBox)sender).Text = "0";
             }
-            else if(!float.TryParse(((TextBox)sender).Text,out test)){
+            else if (!float.TryParse(((TextBox)sender).Text, out test))
+            {
                 MessageBox.Show("Must be a number value.");
                 ((TextBox)sender).Text = "" + test;
-            }else if(test < 0)
+            }
+            else if (test < 0)
             {
                 MessageBox.Show("Must be a positive number.");
                 ((TextBox)sender).Text = "0";
@@ -236,7 +242,7 @@ namespace DnD_Potion_Crafting_Tool
         private void addAttribute_Click(object sender, EventArgs e)
         {
             bool found = false;
-            foreach(ListViewItem listItem in AttributelistView.Items)
+            foreach (ListViewItem listItem in AttributelistView.Items)
             {
                 if (listItem.Text.Equals(newAttributeText.Text.ToUpper()))
                 {
@@ -255,64 +261,213 @@ namespace DnD_Potion_Crafting_Tool
             if (CURRENT_STATE.Equals(Constants.STATIC_STATE_EDIT))
             {
                 Item newItem = new Item();
-                newItem.Name = this.NameText.Text;
+                newItem.Name = this.NameText.Text.Trim();
                 newItem.Rank = RankCombo.SelectedIndex;
                 string tempString = "";
                 if (HerbalismCheck.Checked)
                 {
-                    tempString = tempString + "H";
+                    tempString = tempString + Constants.HERBALISM_SAVE_INDICATOR;
                 }
                 if (AlchemyCheck.Checked)
                 {
-                    tempString = tempString + "A";
+                    tempString = tempString + Constants.ALCHEMIST_SAVE_INDICATOR;
                 }
                 if (PoisonerCheck.Checked)
                 {
-                    tempString = tempString + "P";
+                    tempString = tempString + Constants.POISONER_SAVE_INDICATOR;
                 }
                 newItem.Kits = tempString;
-                if (!BasesCombo.Items[BasesCombo.SelectedIndex].ToString().Equals(Constants.STATIC_NONE))
+                if (BasesCombo.SelectedIndex == -1 || !BasesCombo.Items[BasesCombo.SelectedIndex].ToString().Equals(Constants.STATIC_NONE))
                 {
-                    newItem.Base = BasesCombo.Items[BasesCombo.SelectedIndex].ToString();
+                    newItem.Base = BasesCombo.Text.Trim();
                 }
-                if (!Addative1Combo.Items[Addative1Combo.SelectedIndex].ToString().Equals(Constants.STATIC_NONE))
+                if (Addative1Combo.SelectedIndex == -1 || !Addative1Combo.Items[Addative1Combo.SelectedIndex].ToString().Trim().Equals(Constants.STATIC_NONE))
                 {
-                    if (!newItem.Addatives.Contains(Addative1Combo.Items[Addative1Combo.SelectedIndex].ToString())) {
-                        newItem.Addatives.Add(Addative1Combo.Items[Addative1Combo.SelectedIndex].ToString());
+                    if (!newItem.Addatives.Contains(Addative1Combo.Text.Trim()))
+                    {
+                        newItem.Addatives.Add(Addative1Combo.Text.Trim());
                     }
                 }
-                if (!Addative2Combo.Items[Addative2Combo.SelectedIndex].ToString().Equals(Constants.STATIC_NONE))
+                if (Addative2Combo.SelectedIndex == -1 || !Addative2Combo.Items[Addative2Combo.SelectedIndex].ToString().Trim().Equals(Constants.STATIC_NONE))
                 {
-                    if (!newItem.Addatives.Contains(Addative2Combo.Items[Addative2Combo.SelectedIndex].ToString()))
+                    if (!newItem.Addatives.Contains(Addative2Combo.Text.Trim()))
                     {
-                        newItem.Addatives.Add(Addative2Combo.Items[Addative2Combo.SelectedIndex].ToString());
+                        newItem.Addatives.Add(Addative2Combo.Text.Trim());
                     }
                 }
                 foreach (ListViewItem listItem in AttributelistView.Items)
                 {
-                    if (!newItem.Attributes.Contains(listItem.Text))
+                    if (!newItem.Attributes.Contains(listItem.Text.Trim()))
                     {
-                        newItem.Attributes.Add(listItem.Text);
+                        newItem.Attributes.Add(listItem.Text.Trim());
                     }
                 }
-                newItem.Value = float.Parse(ValueText.Text);
-                newItem.Effect = EffectBox.Text;
-                newItem.Water_Value = float.Parse(Water_Text.Text);
-                newItem.Fire_Value = float.Parse(Fire_Text.Text);
-                newItem.Air_Value = float.Parse(Air_Text.Text);
-                newItem.Nature_Value = float.Parse(Nature_Text.Text);
-                newItem.Metal_Value = float.Parse(Metal_Text.Text);
-                newItem.Vitality_Value = float.Parse(Vitality_Text.Text);
-                newItem.Decay_Value = float.Parse(Decay_Text.Text);
-                newItem.Arcane_Value = float.Parse(Arcane_Text.Text);
-                newItem.Divine_Value = float.Parse(Divine_Text.Text);
-                newItem.Infernal_Value = float.Parse(Infernal_Text.Text);
+                float.TryParse(ValueText.Text.Trim(), out newItem.Value);
+                newItem.Effect = EffectBox.Text.Trim();
+                float.TryParse(Water_Text.Text.Trim(), out newItem.Water_Value);
+                float.TryParse(Fire_Text.Text.Trim(), out newItem.Fire_Value);
+                float.TryParse(Air_Text.Text.Trim(), out newItem.Air_Value);
+                float.TryParse(Nature_Text.Text.Trim(), out newItem.Nature_Value);
+                float.TryParse(Metal_Text.Text.Trim(), out newItem.Metal_Value);
+                float.TryParse(Vitality_Text.Text.Trim(), out newItem.Vitality_Value);
+                float.TryParse(Decay_Text.Text.Trim(), out newItem.Decay_Value);
+                float.TryParse(Arcane_Text.Text.Trim(), out newItem.Arcane_Value);
+                float.TryParse(Divine_Text.Text.Trim(), out newItem.Divine_Value);
+                float.TryParse(Infernal_Text.Text.Trim(), out newItem.Infernal_Value);
                 newItem.saveFile();
                 resetLists();
             }
-            else
+            else if (CURRENT_STATE.Equals(Constants.STATIC_STATE_CRAFT))
             {
-                //TO-DO: Take inputs and iterate through the list of possible items and determine the highest value item satisfied by all ingredients
+                List<Item> satisfiedItems = new List<Item>();
+                foreach (Item prospect in Items)
+                {
+                    bool satisfied = true;
+                    if (!prospect.Base.Equals(BasesCombo.Text.Trim()))
+                    {
+                        satisfied = false;
+                    }
+                    if (satisfied && (!Addative1Combo.Text.Trim().Equals(Constants.STATIC_NONE) && !Addative1Combo.Text.Trim().Equals("")))
+                    {
+                        if (!prospect.Addatives.Contains(Addative1Combo.Text.Trim()))
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied && (!Addative2Combo.Text.Trim().Equals(Constants.STATIC_NONE) && !Addative2Combo.Text.Trim().Equals("")))
+                    {
+                        if (!prospect.Addatives.Contains(Addative2Combo.Text.Trim()))
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied && prospect.Kits.Length > 0)
+                    {
+                        bool qualified = false;
+                        if (!qualified && prospect.Kits.Contains(Constants.HERBALISM_SAVE_INDICATOR) && HerbalismCheck.Checked)
+                        {
+                            qualified = true;
+                        }
+                        if (!qualified && prospect.Kits.Contains(Constants.ALCHEMIST_SAVE_INDICATOR) && AlchemyCheck.Checked)
+                        {
+                            qualified = true;
+                        }
+                        if (!qualified && prospect.Kits.Contains(Constants.POISONER_SAVE_INDICATOR) && PoisonerCheck.Checked)
+                        {
+                            qualified = true;
+                        }
+                        if (!qualified)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Water_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Water_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Fire_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Fire_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Air_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Air_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Nature_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Nature_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Metal_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Metal_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Vitality_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Vitality_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Decay_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Decay_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Arcane_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Arcane_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Divine_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Divine_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        float testInput = 0;
+                        float.TryParse(Infernal_Text.Text.Trim(), out testInput);
+                        if (testInput < prospect.Infernal_Value)
+                        {
+                            satisfied = false;
+                        }
+                    }
+                    if (satisfied)
+                    {
+                        satisfiedItems.Add(prospect);
+                    }
+                }
+                String output = "Potions that could be made: \n\n";
+                if (satisfiedItems.Count != 0) { 
+                    foreach (Item val in satisfiedItems)
+                    {
+                        output = output + val.Name + "\n";
+                    }
+                }
+                else
+                {
+                    output = output + "NONE";
+                }
+                MessageBox.Show(output);
             }
         }
     }
